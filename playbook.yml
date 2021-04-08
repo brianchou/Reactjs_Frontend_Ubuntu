@@ -32,7 +32,7 @@
   - name: Copy Source Files to Server
     ansible.builtin.copy:
       src: /home/parallels/Reactjs_Frontend_Ubuntu
-      dest: /root
+      dest: /root/Reactjs_Frontend_Ubuntu
       mode: preserve
       remote_src: no
   - name: start front-end service
