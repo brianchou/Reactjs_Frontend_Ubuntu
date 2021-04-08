@@ -1,0 +1,44 @@
+---
+- name: setup front-end files 
+  hosts: all
+  remote_user: root
+  tasks:
+  - name: Apt-get Update
+    command: apt update
+  - name: Install npm
+    apt:
+      name: npm
+      state: latest
+  - name : npm install PM2
+    command : npm install pm2@latest -g
+  - name: npx create-react-app
+    command: npx -q create-react-app reactjs_frontend_ubuntu
+    args:
+      chdir: /root
+  - name: npm install bootstrap
+    command: npm install bootstrap
+    args:
+      chdir: /root/reactjs_frontend_ubuntu
+  - name: npm install react-router-dom
+    command: npm install react-router-dom
+    args:
+      chdir: /root/reactjs_frontend_ubuntu
+  - name: npm install axios
+    command: npm install axios
+    args:
+      chdir: /root/reactjs_frontend_ubuntu
+  - name: Change Directory Name
+    command: mv /root/reactjs_frontend_ubuntu /root/Reactjs_Frontend_Ubuntu
+  - name: Copy Source Files to Server
+    ansible.builtin.copy:
+      src: /home/parallels/Reactjs_Frontend_Ubuntu
+      dest: /root
+      mode: preserve
+      remote_src: no
+  - name: start front-end service
+    command: pm2 start npm -- start
+    args:
+      chdir: /root/Reactjs_Frontend_Ubuntu
+
+
+
